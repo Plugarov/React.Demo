@@ -27,7 +27,7 @@ export const CustomerList: React.FC<CustomerListProps> = ({customers, onRemove})
                       <tr key={customer.id}>
                         <td>{customer.id}</td>
                         <td>{customer.name}</td>
-                        <td>{customer.phone}</td>
+                        <td>{customer.lastName}</td>
                         <td><span className="material-icons red-text trash-custom"
                                onClick={()=>onRemove(customer.id)}>delete</span></td>
                       </tr>
