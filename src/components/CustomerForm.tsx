@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { ICustomer } from './../interfaces';
+import { ICustomer } from '../common/interfaces';
 
 interface CustomerFormProps {
     onAdd(title: ICustomer): void

@@ -1,29 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import { CustomerForm } from '../components/CustomerForm';
-import { CustomerList } from '../components/CustomerList';
-
-import { ICustomer } from '../interfaces';
+import React, { useEffect } from 'react'
+import { CustomerForm } from '../components/CustomerForm'
+import { CustomerList } from '../components/CustomerList'
+import useCustomerReducer, { get, add, remove } from '../common/reducer';
+import { ICustomer } from '../common/interfaces';
 
 export const CustomersPage: React.FC = () => {
-  const [customers, setCustomers] = useState<ICustomer[]>([])
+  const [state, dispatch] = useCustomerReducer()
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('customers') || '[]') as ICustomer[];
-    setCustomers(saved)
+    dispatch(get())
   }, [])
 
-  useEffect(() => {
-    localStorage.setItem('customers', JSON.stringify(customers))
-  }, [customers])
-
   const addHandler = (customer: ICustomer) => {
-    setCustomers(prev => [customer, ...prev]);
+    dispatch(add(customer))
   }
 
   const removeHandler = (id: number) => {
     const shouldRemove = window.confirm('Do you really want to delete?');
     if (shouldRemove) {
-      setCustomers(prev => prev.filter(customer => customer.id !== id));
+      dispatch(remove(id))
     }
   }
 
@@ -31,7 +26,7 @@ export const CustomersPage: React.FC = () => {
     <React.Fragment>
       <CustomerForm onAdd={addHandler} />
 
-      <CustomerList customers={customers} onRemove={removeHandler} />
+      <CustomerList customers={state} onRemove={removeHandler} />
     </React.Fragment>
   )
 }
